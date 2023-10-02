@@ -1,0 +1,176 @@
+Elméleti háttér(Adatbázis)
+Normálformák
+A normálformák követése az esetek többségében kiküszöböli az anomáliákat, elsősorban a redundanciát.
+Az adatbázis-kezelésben legalább öt normálformát használunk, de az első három alkalmazása általában
+tökéletesen elegendő.
+Az első normálforma
+Elterjedt (és a gyakorlatban tökéletesen használható), informális definíció szerint a tábla (a reláció)
+első normálformában (1NF) van, ha minden tulajdonsága egyszerű, nem összetett adatokat tartalmaz.
+Az egyszerű és az összetett adat szétválasztása mindig tartalmi vizsgálatot igényel. Általában arra kell
+törekedni, hogy az összetett adatokat a kezdetektől a lehető legkisebb egységekre bontva, külön
+oszlopokban tároljuk. A későbbiekben ugyanissokkal nehezebb a már feltöltött adatbázisunk tábláinak
+egyes oszlopaitszétválasztani. Az összetett adatok tárolása ráadásul az adatbázis-műveletek egy részét
+is nehézkessé teheti.
+A formális definíció szerint azonban a tábla akkor van első normálformában, ha nincsenek benne
+ismétlődő csoportok.
+Az igazán egzakt definícióhoz relációalgebrai levezetésre lenne szükség, de ezt elhagyjuk.
+Megjegyezzük, hogy – érdekes módon – éppen az első normálformával kapcsolatban a mai napig elég
+éles elméleti vita folyik a szakirodalomban, s mivel a magyar nyelvű szakkönyvek többnyire ezeket a
+forrásokat követik, különböző forrásokban más magyarázatot találhatunk.
+A fő probléma az „ismétlődő csoport” fogalmi megragadásában mutatkozik. A szigorú, coddi definíciót
+követő Elmashri - Navathe (2003) és a megengedő Date (2003) közötti elméleti vita számunkra nem
+különösebben fontos, de talán érdemes megjegyezni, hogy az általunk követett Date-féle definíció nem
+az egyetlen.
+Date szerint egy tábla akkor van első normálformában, ha teljesíti a következő öt feltételt:
+• Sorai között (részben vagy egészben) nincssorrendi kapcsolat. (Véletlenül, vagy valamilyen nézetben
+megjelenhetnek sorba rendezve, de a sorrendnek adatbázis-kezelésiszempontból nem lehetszerepe.)
+• Oszlopai között (részben vagy egészben) nincs sorrendi kapcsolat. (Az értelmezés hasonló az előző
+ponthoz.)
+• Nincsenek benne ismétlődő sorok, tehát nincs két, egymással egyező sor.
+• Minden sor és oszlop metszete az adott értéktartomány egyetlen értékét tartalmazza.
+• Minden oszlop szabályos, tehát a tárolt értéken túl nem tartalmazhatnak egyéb elemeket (azonosítókat,
+időbélyeget stb.).
+Az első normálforma megsértésére általában az alábbiak utalnak:
+• A táblában nincs elsődleges kulcs, s nem is lehet kialakítani. Ez könnyen azt jelezheti, hogy a
+táblában azonos sorok vannak.
+• A tábla oszlopai vagy sorai között rendezettség tapasztalható.
+• A táblában üres (null-) értékek találhatók. Az üres értékre ugyanis nem teljesül, hogy az adott
+értéktartomány része lenne. (Megjegyzés: Codd kései művei nem zárták ki a null értéket ezért ezt
+inkább vegyük „gyenge” szabálynak.)
+Az alábbi tábla nincs első normálformában, a normalizálás végére viszont már abban jelenik meg:
+VÁSÁRLÓK
+Vásárlókód Vezetéknév Keresztnév Telefonszám
+23 Kiss István 20-123-4567
+34 Nagy József 30-123-4567, 99-123-456
+477 Kovács Éva 70-123-4567
+3. táblázat: Az első normálformát megsértő tábla
+A tábla azért nincs első normálformában, mert a Telefonszám oszlop Nagy József két különböző
+telefonszámát is tartalmazza.
+Adódik ilyenkor a lehetőség, hogy a telefonszámnak több oszlopot biztosítsunk.
+VÁSÁRLÓK
+Vásárlókód Vezetéknév Keresztnév Telefonszám1 Telefonszám2
+23 Kiss István 20-123-4567
+34 Nagy József 30-123-4567 99-123-456
+477 Kovács Éva 70-123-4567
+4. táblázat: Tábla üres értékekkel
+A 4. táblázatban feltüntetett tábla azonban továbbra sincs első normálformában. Bár az még – egyes
+szerzők szerint – elfogadható lenne, hogy a táblában vannak üres értékek, de az semmiképpen sem,
+hogy a Telefonszám1 és a Telefonszám2 oszlop között rendezettség van.
+Ha azt feltételezzük, hogy minden telefonszám csak egy vevőhöz tartozhat, a probléma megoldása
+során a táblát az alábbi szerkezetben két táblára kell bontanunk:
+VÁSÁRLÓK NEVE
+Vásárlókód Vezetéknév Keresztnév
+23 Kiss István
+34 Nagy József
+477 Kovács Éva
+5. táblázat: Első normálformában lévő tábla
+VÁSÁRLÓK TELEFONSZÁMA
+Vásárlókód* Telefonszám
+23 20-123-4567
+34 30-123-4567
+477 70-123-4567
+34 99-123-456
+6. táblázat: Első normálformában lévő tábla
+A normalizálás után létrejövő Vásárlók neve táblában a Vásárlókód oszlop, a Vásárlók telefonszáma
+táblában aTelefonszám oszlop elsődleges kulcsként funkcionál. A Vásárlókód a Vásárlók telefonszáma
+táblában idegen kulcsként funkcionál, ezért a két tábla között egy-a-többhöz kapcsolat van. Tehát egy
+vásárlóhoz több telefonszám tartozhat, de egy telefonszámhoz csak egy vásárlót lehet hozzárendelni.
+Az adatbázisséma tehát a következő:
+VÁSÁRLÓK NEVE (Vásárlókód, Vezetéknév, Keresztnév)
+VÁSÁRLÓK TELEFONSZÁMA (Telefonszám, Vásárlókód*)
+A második normálforma
+A a második normálformának (2NF) is több ismert megközelítése ismert, a legegyszerűbb definíció
+talán a következő:
+Egy tábla (reláció) akkor van második normálformában, ha első normálformában van, s emellett a
+tábla minden, nem elsődleges kulcsként funkcionáló tulajdonsága teljes funkcionális függőségben van
+az elsődleges kulcs egészétől. A tábla (reláció) kulcsában nem szereplő tulajdonságokat (attribútumokat)
+nem elsődleges tulajdonságnak (attribútumnak) is nevezhetjük. Ha az elsődleges kulcs nem összetett
+kulcs (tehát egy oszlopból áll), akkor a tábla automatikusan második normálformában van, hiszen
+ekkor nem következhet be, hogy egy oszlop az elsődleges kulcs egy részétől függjön csak.
+Az alábbi, összetett elsődleges kulcsot tartalmazó tábla nincs második normálformában:
+VIZSGABEOSZTÁS
+Tanterem Időpont Tárgy Terem kapacitása
+T1 8:00 Matematika 20
+T2 10:00 Pénzügy 30
+T1 12:00 Számvitel 20
+T2 12:00 Statisztika 30
+T1 16:00 Angol 20
+7. táblázat: Tábla második normálformába rendezés előtt
+A tábla tulajdonságai között két teljes funkcionális függés írható le:
+Tanterem, Időpont → Tárgy
+Tanterem → Terem kapacitása
+A Terem kapacitása tehát csak az elsődleges kulcs egy részéhez képest van teljesfunkcionálisfüggésben,
+ezért nincs második normálformában. Ha azonban a táblát az alábbi módon, két részre bontjuk, mindkét
+tábla második normálformába kerül:
+VIZSGABEOSZTÁS
+Tanterem Időpont Tárgy
+T1 8:00 Matematika
+T2 10:00 Pénzügy
+T1 12:00 Számvitel
+T2 12:00 Statisztika
+T1 16:00 Angol
+8. táblázat: Tábla második normálformában
+TERMEK
+Tanterem Terem kapacitása
+T1 20
+T2 30
+9. táblázat: Tábla második normálformában
+Mindkét tábla második normálformában van, mert a nem elsődleges kulcsként funkcionáló (nem
+elsődleges) tulajdonságok teljes funkcionális függésben vannak az elsődleges kulcs egészével:
+Tanterem, Időpont → Tárgy
+Tanterem → Terem kapacitása
+A két táblából álló adatbázis sémája tehát a következő:
+VIZSGABEOSZTÁS (Tanterem*, Időpont, Tárgy)
+TERMEK (Tanterem*, Terem kapacitása)
+Első ránézésre úgy tűnhet, hogy a két tábla között egy-az-egyhez kapcsolat van, de ez nincs így, hiszen
+aTanterem oszlop önmagában csak aTermek táblában elsődleges kulcs, a másik táblában az Időponttal
+együtt alkot elsődleges kulcsot. A két tábla között valójában – mivel a Termek tábla elsődleges kulcsa
+a másik táblában idegen kulcs – egy-a-többhöz kapcsolat van.
+A harmadik normálforma
+A harmadik normálformára (3NF) is több definíciót találhatunk a különböző forrásokban, bár ezek
+természetesen – az előzőekhez hasonlóan – egymással lényegében ekvivalensek.
+Az általunk leghelyesebbnek tartott definíció a következő:
+Egy tábla (reláció) akkor van harmadik normálformában, ha második normálformában van, és emellett
+a nem elsődleges kulcsként funkcionáló (nem elsődleges) tulajdonságok között nincs funkcionális
+függés.
+A következő tábla második normálformában van, de nincs harmadik normálformában:
+VIZSGABIZOTTSÁGOK
+Vizsga Vizsgaelnök Elnök személyi száma
+Matematika Kis István 1-671107-1234
+Pénzügy Molnár Attila 1-600404-2345
+Számvitel Kovács Éva 2-650501-3456
+Statisztika Molnár Attila 1-600404-2345
+Angol Szabó Ferenc 1-751202-7891
+10. táblázat: Tábla harmadik normálformába rendezés előtt
+A fenti táblában a vizsgaelnök személyének ismétlődése nem redundancia, de a vele funkcionális
+függésben lévő adatok ismétlődése már redundanciához vezet:
+Vizsga → Vizsgaelnök → Elnök személyi száma
+A redundanciához vezető funkcionális függést az alábbi táblaszerkezettel lehet feloldani:
+VIZSGABIZOTTSÁGOK
+Vizsga Vizsgaelnök
+Matematika Kis István
+Pénzügy Molnár Attila
+Számvitel Kovács Éva
+Statisztika Molnár Attila
+Angol Szabó Ferenc
+11. táblázat: Tábla harmadik normálformában
+VIZSGAELNÖKÖK
+Vizsgaelnök Elnök személyi száma
+Kis István 1-671107-1234
+Molnár Attila 1-600404-2345
+Kovács Éva 2-650501-3456
+Szabó Ferenc 1-751202-7891
+12. táblázat: Tábla harmadik normálformában
+A fenti táblákban a nem elsődlegestulajdonságok között már nincsfunkcionálisfüggés, a nem elsődleges
+azonosítók csak az elsődleges azonosítóktól (a kulcs részeitől vagy – nem összetett kulcsok esetén –
+a kulcstól) függnek funkcionálisan:
+Vizsga → Vizsgaelnök
+Vizsgaelnök → Elnök személyi száma
+A táblaszerkezet alapján látható, hogy a két tábla között egy-a-többhöz kapcsolat van:
+VIZSGABIZOTTSÁGOK (Vizsga, Vizsgaelnök*)
+VIZSGAELNÖKÖK (Vizsgaelnök, Elnök személyi száma)
+Az adatbázis-kezeléssorán az első három normálforma általában elegendő az adatbázistáblák vizsgálata,
+kialakítása során. Létezik ugyan még néhány normálforma (Boyce-Codd, negyedik és ötödik
+normálforma), amelyek speciális esetekben további redundanciák kiküszöbölésében lehetnek a
+segítségünkre, de ezek ismerete nélkül isjól működő és minimálisredundanciával terhelt adatbázisokat
+alakíthatunk ki.

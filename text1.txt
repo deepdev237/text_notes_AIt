@@ -1,0 +1,161 @@
+2. fejezet - Elméleti háttér(Adatbázis)
+Az adatbázis fogalma és az adatbázisok rövid
+története
+Az adatbázis fogalmának számos egzakt, tudományos definíciója létezik. Számunkra azonban
+tökéletesen elégségesnek tűnik az a hétköznapi definíció, amely szerint az adatbázis valamilyen jól
+definiált rendszer szerint tárolt adatokból áll, s lehetővé teszi az adatok kezelését, azaz rögzítését,
+tárolását, rendszerezését, keresését, módosítását, különböző kimutatások és lekérdezések készítését
+stb. Lényegében az ezeket a funkciókat biztosító szervezettség teszi az adathalmazt adatbázissá. Tágabb
+értelemben az adatbázisok funkcióit biztosító rendszert nevezzük adatbázis-kezelőnek, az ezzel
+foglalkozó diszciplínát pedig adatbázis-kezelésnek.
+Az adatok kezelését lehetővé rendszerek természetesen a számítástechnika kialakulása előtt is léteztek.
+Az ősi folyamvölgyi kultúrák, a görög poliszok, a római birodalom, a középkori egyházi, nemesi és
+királyi levéltárak, könyvtárak, adóügyi és birtok-nyilvántartások, az újkori államok és egyéb szervezetek
+széleskörű nyilvántartási rendszereinek stb. története nemcsak tudománytörténetiszempontból fontos.
+Az akkori problémákra adott válaszok esetenként mai körülményeink között is érdekesek és hasznosak.
+Mi azonban e jegyzet keretében csak a számítástechnikai eszközökkel végzett adatbázis-kezeléssel
+tudunk érdemben foglalkozni.
+Az adatok felvételének, tárolásának, rendszerezésének és visszakeresésének gépesítése a 19. század
+második felében vált egyre sürgetőbb igénnyé.
+Az első adatbázis-kezelő, mechanikus gépnek Herman Hollerith német származású amerikai feltaláló
+lyukkártyásrendszere tekinthető, amelynek a használata az 1890-es amerikai népszámlálás adatfelvételét
+és adatfeldolgozását jelentős mértékben meggyorsította.
+Az adatbázis-kezelés valódi forradalmát azonban a számítástechnikai eszközökkel végzett adatbáziskezelés kialakulása és gyorsfejlődése jelentette. A hőskor lyukkártyaolvasó éslyukkártyaíró rendszereit
+igen hamar felváltották a mágnesszalagos, majd optikai tárolók, s általában véve minden
+számítástechnikai-infokommunikációs eszköz fejlődésének igen komoly hatása volt az adatbázis-kezelő
+rendszerekre. A hálózatok, majd az internet fejlődése pedig az osztott rendszerektől az adatbáziskapcsolatos internet-alkalmazásokig az adatbázis-kezelés újabb ugrásszerű fejlődését hozta magával.
+Ma a különböző online alkalmazások felhasználóinak többsége valószínűleg nincs is tisztában azzal,
+hogy a napi, intenzív webes kommunikáció során az online alkalmazás a háttérben megbújó, kifinomult
+adatbáziskezelő-alkalmazásokat használ.
+Talán paradoxonnak tűnhet, de a mai adatbázisok és adatbázis-kezelő rendszerek elvi alapjai lényegében
+évtizedek óta alig-alig változtak. Az infokommunikációs eszközök és környezet változása miatt ugyan
+a mai diákok számára egy évtizedekkel ezelőttiszámítógép ésszámítógépes alkalmazás használhatatlan
+„őskövületnek” tűnhet, az adatbázis-kezelésstandard,s az adatbázisok fejlesztéséhez nélkülözhetetlen
+elmélete nem avult el az évtizedek során.
+Adatmodellek
+Az adatbázis-kezelés elméletének magja az adatmodell, az adatbázisban tárolt adatok adatszervezési
+módjának sémája. Több elterjedt modell létezik, de az adatbázisok többsége a relációs adatmodellre
+épül. A jegyzet első felét alapvetően e modellnek a bemutatására szenteljük.
+Mielőtt azonban részletesen megismerkednénk a relációs modellel, röviden bemutatunk néhány egyéb
+adatmodellt is.
+
+Hierarchikus adatbázismodell
+A hierarchikus adatbázisokat általában faszerkezettel szokás szemléltetni. Hierarchikus adatmodellt
+követ például a számítógépek fájlszerkezete vagy a Windows regisztrációs adatbázisa.
+A hierarchikus adatbázisokban az adatok hierarchikus rendbe szervezik. Az alárendelt adatokat
+gyerekadatnak, a fölérendelteket szülőadatnak is nevezik. A fölé- és alárendelt adatok között általában
+„egy a többhöz” kapcsolat van, azaz a szülőadatnak több gyerekadata lehet, de fordítva ez már nem
+teljesül, a gyerekadatok csak egy szülőadattal rendelkeznek.
+Az adatok elérése során relatív elérésről vagy relatív elérési útról beszélünk, amikor a hierarchia egy
+adott helyén lévő adatból kiindulva írjuk le egy másik adat helyét a kapcsolatokon keresztül. (Például:
+../../első szint/második szint/adat)
+Az adatok elérése abszolút, amikor egy adat elérési helyét a hierarchia legfelsőbb szintjéről kiindulva
+írjuk le. (Például: C:/első szint/második szint/adat)
+Hálós adatbázismodell
+A hálós adatmodellben lényegében a matematikából ismert gráfokkal írjuk le az adatbázist. Újabban
+elsősorban a digitális térképfeldolgozásnál értékelődött fel – az előző modellhez hasonlóan – nem túl
+széles körben használt adatmodell.
+A hálós adatmodellben az adatok az adatháló csomópontjaiban helyezkednek el. Az adatok közötti
+kapcsolat (a háló éleinek) minőségét az adatok közötti kapcsolat hossza is jellemezheti. Az adatok
+között a kapcsolat irányított vagy irányítatlan lehet.
+Többdimenziós adatmodell
+A döntés-előkészítésben használt adatbányászrendszerek gyakran többdimenziós adatmodellre épülnek.
+Az adatokat általában egy többdimenziós „kockában” tárolják, s ez a tárolási mód lehetőséget ad
+gyakorlatilag bármilyen típusú adatkombináció és adatösszesítés lekérdezésére. A többdimenziós
+adatmodell elsősorban a nagy adatbázisok statisztikai elemzését teszi lehetővé.
+Objektumrelációs adatmodell
+Az objektumrelációs adatmodell alapvetően a relációs modell összetett adattípusokkal bővített
+változatának tekinthető.
+Az adatbázis-kezelésstandard alapmodellje azonban a relációs adatmodell, amelyetszinte egyeduralkodó
+jellege miatt részletesebben is bemutatunk.
+A relációs adatmodell
+A relációs modell szülőatyja Edgar Frank Ted Codd, aki 1970-ben publikált A Relational Model of
+Data for Large Shared Data Banks (A nagy, osztott adatbankok egy lehetséges relációs adatmodellje)
+című cikkében halmazelméleti alapokon, igen tömören és pontosan (mindössze 11 oldalon) vázolta
+fel azt az adatmodellt, amely több mint negyven éve szinte minden adatbázis-kapcsolatos alkalmazás
+megkerülhetetlen része.
+A modell alapját képező relációs algebra a relációs adatbázisok elvi és gyakorlati problémáinak
+megoldására alkalmas módszertan, mi azonban ezzel a jegyzet keretei között nem foglalkozunk.
+Az IBM (többek között Codd közreműködésével) 1976-ban kifejlesztette az első, relációs algebrára
+épülő adatbázisnyelvet, a SEQUEL-t, amely később a rövidebb SQL-re (Structured Query Language,
+strukturált lekérdezőnyelv) neveztek át.
+Az SQL segítségével lehetővé vált, hogy a fejlesztők szabványos adatszerkezeteket definiáljanak, az
+adatkezelés bonyolultsága csökkent, s az adatbiztonsági problémák megoldása is könnyebb lett. Az
+SQL-ben a lekérdezések és a karbantartás (adatfelvétel, adatmódosítás, adattörlés) során már nem
+kellett a fizikai szinttel foglalkozni.
+A relációs modell és a folyamatosan fejlődő SQL-nyelv – az informatikai fejlődés több más eleme
+mellett – tette lehetővé a mai adatbázis-kezelő rendszerek kifejlesztését, amely többségükben az a
+relációs adatmodellre épülnek, és a kezelőfelületen végzett műveletek „alatti” szinten SQL-utasítások
+futnak.
+Operatív és analitikus adatbázisok
+Az adatbázisokat alapvetően két csoportra oszthatjuk: operatív és analitikus adatbázisokra.
+Az operatív adatbázisok az üzleti életben, a különböző intézményekben ésszervezetekben széles körben
+elterjedtek. Az operációs adatbázisokban a különböző módon összegyűjtött adatok tárolását, kezelését
+és módosítását végezzük. Az adatok változása miatt azokat dinamikus adatoknak tekintjük.
+Az analitikus adatbázisok viszont statikus adatokat tárolnak. Ezek lehetnek például tranzakciók adatai
+vagy történeti statisztikai adatok.
+Bár a kétféle adatbázis eltérő követelményeket támaszt a fejlesztő és a felhasználó felé, s ma már az
+elvi modellekben is egyre jelentősebbek a különbségek, Codd relációs modellje alapvetően mindkét
+adatbázistípusnál alkalmazható.
+Alapfogalmak
+A relációs modellben az adatokat relációkban vagy táblákban tároljuk. A két fogalom minden további
+nélkül felcserélhető egymással. Fontosnak tartjuk megjegyezni, hogy a relációt a hétköznapi
+szóhasználatban „kapcsolatként” fordítjuk, ezért a relációt nagyon sokan a táblák közötti kapcsolattal
+azonosítják. Ez azonban hibás értelmezés. A reláció nem a táblák közötti kapcsolatot, hanem magát a
+táblát jelenti.
+A táblát (relációt) egyednek is nevezhetjük. Az egyed lényegében a tábla tartalmi megfelelője, hiszen
+az egyed olyan egyedpéldányok halmaza, akik a többi egyedtől és egyedpéldánytól (dologtól,
+objektumtól) jól elkülöníthetők, megkülönböztethetők.
+Minden tábla sorokból és oszlopokból áll.
+A sorokat gyakran hívják rekordnak, tartalmilag pedig egy-egy egyedpéldánynak felelnek meg. A
+sorok sorrendje tetszőleges, és a táblában nem lehet két olyan sor, amelyiknek mindegyik eleme
+megegyezne.
+Az oszlopok alternatív elnevezése a mező. Az oszlop tartalmilag tulajdonságként írható le.
+A sorok és az oszlopok metszetei tulajdonságértékeket, elemi adatokat tartalmaznak.
+A kulcs olyan oszlop, amely speciális célokkal-tulajdonságokkal rendelkezik.
+Az elsődleges kulcs egy olyan kitüntetett tulajdonságokkal rendelkező oszlop, amely egyértelműen
+azonosítja, s egyben megkülönbözteti egymástól a sorokat. Ennek valójában egyetlen elégséges és
+szükséges feltétele van: az elsődleges kulcsként funkcionáló oszlopban minden egyes értéknek
+különböznie kell. Bár a használatuk különböző okokból nem célszerű, léteznek ún. összetett kulcsok
+is, amikor az elsődleges kulcsot nem egy, hanem több oszlop alkotja. Ilyenkor a kettő vagy több oszlop
+akkor lehet elsődleges kulcs, ha nincs két olyan sor, amelyekben az elsődleges kulcsokhoz tartozó
+oszlopok összes értéke megegyezne.
+Az egyik táblában összetett kulcsként definiált oszlopok egyes oszlopaihoz egy másik táblában tartozhat
+egy idegen kulcsként funkcionáló oszlop. Az idegen kulcs elemei az első tábla elsődleges kulcsának
+elemei közül kerülnek ki, s ezzel az idegen kulcs a két tábla közötti kapcsolatot testesíti meg. Az idegen
+kulcsként definiált oszlop azonban a táblán belül általában egy egyszerű, nem elsődleges kulcsként
+funkcionáló oszlop.
+A kapcsolatok típusai
+A több táblába rendezett adatok közötti kapcsolatoknak három típusát lehet megkülönböztetni: az egyaz-egyhez kapcsolatot (1:1), az egy-a-többhöz kapcsolatot (1:n) és a több-a-többhöz kapcsolatot (n:m).
+Az egyes kapcsolattípusok leírásához először képzeljük el, hogy az adathalmazunk egyedei közül
+kiválasztunk két egyedet, az első egyed egyedpéldányai alkotják az A halmazt, a második egyed
+egyedpéldányai a B halmazt. (Az egyedekre az egyes kapcsolattípusoknál konkrét példákat adunk.) A
+halmazok természetesen táblaként is értelmezhetők.
+Egy-az-egyhez kapcsolat
+Egy-az-egyhez kapcsolatnál A halmaz (tábla) minden eleméhez (sorához) B halmaz (tábla) legfeljebb
+egy eleme (sora) tartozik, és ugyanígy, B halmaz (tábla) minden eleméhez (sorához) A halmaz (tábla)
+legfeljebb egy eleme (sora) tartozik.
+Az egy-az-egyhez kapcsolatban lévő táblák valójában egyetlen táblaként is kezelhetők lennének. Az
+adatokat egy-az-egyhez kapcsolat esetén általában azért bontjuk két táblára, mert például a túlságosan
+összetett táblát több kisebb, könnyebben kezelhető táblára kívánunk felosztani, vagy egy tábla egyes
+részeit adatvédelmi okokból külön kívánjuk tárolni, vagy az egyik táblában olyan adatokat kívánunk
+tárolni, amely a főtáblában tartalmilag csak egyes soroknál értelmezhető.
+Példa: Létrehozhatunk egy táblát azokról a hallgatókról, akik szabadidejükben az egyetemi
+kosárlabdacsapat oszlopos tagjai.
+Egy-a-többhöz kapcsolat
+Az egy-a-többhöz kapcsolat a leggyakoribb kapcsolattípus. Egy-a-többhöz kapcsolatnál A halmaz
+(tábla) minden eleméhez (sorához) B halmaz (tábla) legfeljebb egy eleme (sora) tartozik, de a korlát
+fordítva már nem igaz, B halmaz (tábla) minden eleméhez (sorához) A halmaz (tábla) több eleme
+(sora) tartozhat.
+Példa: Vallásos muszlim férfinak nem szekularizált országban több felesége lehet, de a nők csak egy
+férfihez mehetnek hozzá feleségül.
+Több-a-többhöz kapcsolat
+Több-a-többhöz kapcsolatnál A halmaz (tábla) minden eleméhez (sorához) B halmaz (tábla) több eleme
+(sora) tartozhat, és ugyanígy, B halmaz (tábla) minden eleméhez (sorához) A halmaz (tábla) több eleme
+(sora) rendelhető hozzá. A több-a-többhöz kapcsolat technikailag minden esetben felbontható két egya-többhöz kapcsolatra.
+Példa: A hallgatókat több oktató tanítja, s az oktatók is több diáknak tartanak órát.
+Adatbázisok tervezése
+Egy megfelelően működő adatbázis elképzelhetetlen a nagyon pontosan kivitelezett tervezési szakasz
+nélkül. Különösen nagyobb adatbázisoknál a későbbi, radikális átalakítási igény számos problémát
+felvethet, ezért már a kezdetektől hatékony tervezésre kell törekedni. Ehhez tisztázni kell néhány
+alapvető fogalmat és az adatbázis-tervezés célszerű menetét.

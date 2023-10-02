@@ -1,0 +1,173 @@
+Elméleti háttér(Adatbázis)
+Adatmodell és adatbázis
+Az adatbázis lényegében az adatmodell konkrét megvalósításának tekinthető. Az adatbázisoknak
+azonban több absztrakciós szintjük is létezik, mi most ezek közül hármat emelünk ki:
+• Fizikai szint: Az adatbázisok fizikai szintjén az adatok adattárolókon való elhelyezkedését értjük.
+Ezzel az absztrakciós szinttel a jegyzetben nem foglalkozunk.
+• Fogalmi-logikai szint: Az adatbázis egészének leírása az adatmodellre építve. Ezzel a szinttel már
+– a relációs modellre építve – részletesebben foglalkozunk. Megjegyezzük, hogy a két szintet több
+szerző elkülöníti egymástól, de mi ezt gyakorlati szempontból nem látjuk szükségesnek.
+• Felhasználóiszint: Az adatbázis-kezelő rendszerek által a felhasználó konkrét igényeinek megfelelő
+nézet, kezelőfelület. Az adatbázis-kezelés keretében értelemszerűen ezzel is részletesen foglalkozni
+kell.
+Adatbázisséma és adatbázis-előfordulás
+A tervezés során, amikor az adatbázis fogalmi szintjének kialakítását előkészítjük, meg kell tervezni
+az adatbázisszerkezetét, az egyedeket, tulajdonságokat, elsődleges ésidegen kulcsokat és kapcsolatokat
+tartalmazó adatbázissémát. Az adatbázisséma a későbbiekben ugyan bővíthető és módosítható, de
+törekedni kell arra, hogy az esetleg idő- és munkaigényes átalakítás ne tervezési hibák, hanem az újabb
+igények miatt következzék be.
+Az adatbázis-előfordulás az adatbázis aktuálistartalmát jelenti. Az alapadatok első feltöltése általában
+az adatbázisséma alapján lezajló tervezés után történik, frissítésük pedig folyamatos. Minél nagyobb
+az adatbázis-előfordulás annál nagyobb figyelmet kell szentelni az adatbiztonsági kérdéseknek.
+Az adatbázisséma jelölése
+Az adatbázisséma jelölésére számos modell létezik. Némileg hagyománytiszteletből szinte minden
+jegyzet részletesen bemutatja az egyed-kapcsolat modellt, mi azonban ezt nem látjuk szükségesnek.
+A sokféle jelölési módszerből a következő, nagyon egyszerű – a relációs adatbázismodellnek leginkább
+megfelelő – jelölési módszert választjuk:
+• A táblák nevét nagybetűvel írjuk.
+• A táblanév mögött az egyes tulajdonságokat (oszlopokat) a későbbi mezőneveknek megfelelően
+zárójelben felsoroljuk.
+• Az elsődleges kulcsot félkövérrel szedjük.
+• Az idegen kulcsokat csillaggal jelöljük.
+A fentiek alapján tehát egy tábla általános sémája:
+TÁBLANÉV (Elsődleges kulcs, Azonosító 1., Azonosító 2.*,
+Azonosító 3. … Azonosító n.)
+A fenti modellnek természetesen hátránya, hogy például a kapcsolattípusokat nem jelöli vizuális
+eszközökkel, viszont ha tisztázzuk, hogy a relációs adatmodellben hogyan biztosítjuk a különböző
+típusú kapcsolatokat a táblák között, akkor néhány táblás modelleknél ebből aligha származhatnak
+problémák. A tábla fenti jelölése ráadásul már a kezdetektől absztrakcióra kényszeríti a kezdő tervezőt,
+s ez a későbbiekben hasznos lehet.
+Kapcsolatok biztosítása a táblák között
+Egy-az-egyhez kapcsolat
+Az egy-az-egyhez kapcsolatot két tábla között úgy biztosítjuk, hogy a két táblában van egy közös
+mező.
+Például ha az egyetemi hallgatók egy részét külön táblába szerepeltetjük, mert játszanak az egyetemi
+kosárlabdacsapatban, akkor a két – leegyszerűsített – tábla felépítése a következő:
+HALLGATÓK (Hallgatókód*, Vezetéknév, Karkód, Szakkód …)
+KOSÁRLABDÁZÓK (Hallgatókód*, Magasság, Pozíció …)
+A Hallgatókód mindkét táblában elsődleges kulcs, de egyben idegen kulcs is..
+A Karkódot és a Szakkódot meg is csillagozhattuk volna, hiszen valószínűleg – a Kar és a Szak táblázatot
+feltételezve – idegen kulcsként funkcionálnak.
+A közös mezőre vonatkozó feltétel nem a mezőnév azonosságát jelenti, hanem az adatok azonosságára
+– pontosabban inkább halmaz-részhalmaz viszonyra – utal. Ha a Kosárlabdázók táblában a Hallgatókód
+helyett például Kosárlabdázókódot írtunk volna azonos adatok mellett, a kapcsolat akkor is egy-azegyhez lett volna. az adatok azonosságára
+Egy-a-többhöz kapcsolat
+Az egy-a-többhöz kapcsolatot úgy jelöljük, hogy az „egy” oldalon álló tábla (amely tábla értékeihez
+a másik táblában több is tartozhat) elsődleges kulcsát idegen kulcsként szerepeltetjük a másik, „több”
+oldalon álló táblában.
+Például ha egy nem szekularizált, muszlim ország hadseregének nyilvántartásában két külön táblában
+szerepeltetik a katonákat (akik az egyszerűség kedvéért, nem egészen a valóságnak megfelelően,
+legyenek mind férfiak), egy másik táblában pedig a feleségeiket, akkor a két tábla leegyszerűsített
+sémája a következő:
+KATONÁK (Katonakód, Vezetéknév, Keresztnév, Egység, Rang …)
+FELESÉGEK (Feleségkód, Vezetéknév, Keresztnév, Katonakód* …)
+Látható, hogy a két tábla közötti egy-a-többhöz kapcsolatot úgy biztosítottuk, hogy a Katonakód
+elsődleges kulcsot a Feleségek táblában idegen kulcsként tüntettük fel.
+Több-a-többhöz kapcsolat
+Két tábla között a több-a-többhöz kapcsolatot ún. illesztőtábla segítségével biztosítjuk. Az
+illesztőtáblában mindkét tábla elsődleges kulcsát felvesszük úgy, hogy a két idegen kulcs együtt az
+illesztőtábla elsődleges (összetett) kulcsát alkotja.
+A következő két (plusz egy) táblából álló séma az oktatók és a hallgatók közötti tantárgyi kapcsolatot
+írja le:
+OKTATÓK (Oktatókód, Vezetéknév, Keresztnév, Karkód …)
+HALLGATÓK (Hallgatókód, Vezetéknév, Keresztnév, Karkód, Szakkód … )
+TANTÁRGYI KAPCSOLAT (Oktatókód*, Hallgatókód* … )
+Látható, hogy a két tábla közötti több-a-többhöz kapcsolatot úgy biztosítottuk, hogy az Oktatókód és
+a Hallgatókód a Tantárgyi kapcsolat illesztőtáblában egyenként idegen kulcsként, együtt összetett
+kulcsként szerepel.
+Anomáliák
+Az adatbázisok használata – adatokkal való feltöltése – közben felléphetnek ún. anomáliák, problémák,
+amelyek megnehezítik a táblák használatát.
+A legfontosabb anomáliák a következők:
+• Redundancia: Az információk több sorban feleslegesen ismétlődnek.
+• Beszúrási probléma: Az adathoz kötelezően kapcsolódik egy másik adat, de azt nem ismerjük, ezért
+az adatot nem tudjuk bevinni a táblába.
+• Módosítási probléma: Módosítani kell egy adatot egy sorban, de az adat több mássorban isszerepel,
+s mégsem módosulnak külön beavatkozás nélkül.
+• Törlési probléma: Törlés után – mivel csak egész sort törölhetünk -, elvesznek egyes adatok,
+információk, amelyekre a későbbiekben még szükség lenne.
+A fenti – és más – anomáliák vizsgálata és megszüntetése leginkább a függőségek vizsgálatával, a
+relációk felbontásával és a normálformákkal lehetséges. Kezdő adatbázis-fejlesztő számára, alapvető
+relációalgebrai ismeretek hiányában, leginkább a függőségek (funkcionális éstöbbértékű kapcsolatok)
+vizsgálhatók és a normálformák tűnnek használhatónak, és emellett alapvetően a redundancia kiszűrésére
+kell törekedni.
+Funkcionális kapcsolatok
+Funkcionális kapcsolatról akkor beszélünk, ha egy vagy több adat értékéből egy másik adat értéke
+következik.
+Például a hallgató Neptun-kódja egyértelműen meghatározza a hallgató nevét:
+Neptun-kód → Hallgató neve
+A funkcionális kapcsolat vagy függőség baloldalát meghatározónak is nevezhetjük. A jobboldalon
+azonban csak egy darab érték állhat, tehát csak akkor beszélhetünk funkcionális függőségről, ha a
+meghatározó értékéből egy tulajdonságon belül csak egyetlen érték következik. Ha több, akkor nincs
+szó funkcionális kapcsolatról.
+Például bár a névhez csak egyetlen születési év tartozhat, de mivel több embernek islehet azonos neve,
+az adott névhez több születési év is hozzárendelhető.
+Másik példánk a személyi szám és a gyerekek személyi számának kapcsolata. Mivel egy embernek
+több gyereke is lehet, itt sincs szó funkcionális függésről.
+Az adatok közötti funkcionálisfüggőség vizsgálata alapvetően tartalmi jellegű, az adatok „természetéből”
+következik.
+A funkcionálisfüggőség jobb oldalán egy tulajdonságból csak egyetlen érték állhat, de több tulajdonság
+is állhat, tehát egy tulajdonság több tulajdonságot is meghatározhat funkcionálisan.
+Például az autó rendszámából egyértelműen következik az autó típusa és tulajdonosa:
+Rendszám → Autó típusa, Autó tulajdonosa
+Nemcsak a jobboldalon, hanem a baloldalon is több érték állhat.
+Például a település neve és az utcanév meghatározza az irányítószámot:
+Település neve, Utcanév → Irányítószám
+Két tulajdonság kölcsönösfunkcionálisfüggésben islehet egymással, ilyenkor a függés mindkét irányba
+igaz.
+Például a többnejűséget kizáró országokban ilyen viszony van a házastársak személyi száma között:
+Férj személyi száma → Feleség személyi száma,
+Feleség személyi száma → Férj személyi száma
+A funkcionális függőség egyik speciális formája a teljes funkcionális függőség.
+Akkor beszélünk teljesfunkcionálisfüggőségről, ha a meghatározó oldalán nincsfeleslegestulajdonság.
+Például a következő funkcionális függőség nem teljes funkcionális függőség, mert az irányítószámot
+már az első két tulajdonság egyértelműen meghatározza:
+Település neve, Utcanév, Házszám → Irányítószám
+Többértékű függőség
+Az adatok közötti kapcsolatok egy része nem fejezhető ki funkcionális függőséggel. Például egy
+hallgatói adatbázisban a Hallgatókódból egyértelműen következik a hallgató szakja, de a hallgatóhoz
+több szak is tartozhat, s ugyanarra a szakra természetesen több hallgató is jár. Ilyenkor egyik irányban
+sem lehet egyértelmű függőségről beszélni, mivel a meghatározó tulajdonság egyes adatértékeihez a
+meghatározott tulajdonság egy-egy értékhalmaza tartozik. Az ilyen függőséget többértékű függőségnek
+nevezzük. Előbbi példánknál maradva:
+Hallgatókód →→ Szak
+Többértékű függőségnél is előfordulhat, hogy a meghatározó értékéből több tulajdonság értéke
+következik:
+Hallgatókód →→ Szak, Beiratkozás éve
+A különböző függőségek ismeretében a korábban már említett általános anomália, a redundancia
+fogalma is jobban megragadható.
+A redundancia
+Ha valamely értéket vagy a többi adatból levezethető mennyiséget többszörösen tároljuk az adatbázisban,
+az adatbázisban redundancia van. A redundancia, a tárolóterület felesleges lefoglalása mellett, fölös
+adatbázis-frissítési és adatkarbantartási műveletekhez vezet, amelyek könnyen az adatbázis
+inkonzisztenciáját okozhatják. Az adatbázis akkor inkonzisztens, ha egymásnak ellentmondó tényeket
+tartalmaz.
+Megjegyezzük, hogy afizikai tervezéssorán az adatbázis-műveletek meggyorsítása érdekében esetenként
+redundáns tulajdonságokat is bevezethetünk.
+A lenti táblában egyes adatokat többször is tárolunk:
+DOLGOZÓK
+Dolgozó Osztálykód Osztály neve Osztályvezető Beosztás
+Kiss István KÖ Könyvelés Molnár Katalin könyvelő
+Nagy József PÜ Raktár Csiszár Zoltán targoncavezető
+Kovács Éva KÖ Könyvelés Molnár Katalin könyvelő
+1. táblázat: Táblázat redundáns adatokkal
+Az Osztály neve és az Osztályvezető oszlopok ebben a táblában való felvétele kettős hátránnyal jár:
+• Ha az osztályvezető neve megváltozik, azt minden sorban módosítani kell.
+• Ha új dolgozó kerül a táblába, nem elég csak az osztálykódot feltüntetni, az osztály nevét és az
+osztályvezető nevét is fel kell vennünk.
+A redundancia azonban nem azonos az adatok többszörös tárolásával, sőt – mint ahogy később látni
+fogjuk – arra gyakran éppen a redundancia elkerüléséért van szükség.
+TERMÉKEK
+Termékkód Terméktípus Darabszám Állapot Listaár
+KÖ-1 Könyv 6 új 2300 Ft
+KÖ-2 Könyv 11 új 4800 Ft
+KÖ-3 Könyv 1 használt 1290 Ft
+2. táblázat: Adatok többszörös tárolása
+A fenti táblában a terméktípusnál a többszörös előfordulás nem redundancia, hiszen a terméktípus az
+adott termék immanens tulajdonsága, feltüntetése nélkülözhetetlen. Ha azonban például Könyvek
+ÁFA-ja oszlop is lenne a táblázatban, az már redundancia lenne, hiszen az ÁFA funkcionálisan függ
+a termék típusától (esetünkben a könyvtől).
+Redundanciával állunk szemben akkor is, ha a táblázatban olyan oszlopot tüntetünk fel, amely már
+valamilyen tárolt adatból egyértelműen levezethető adatokat tartalmaz.
+A redundanciák kiszűrésének első lépése a függőségek feltárása lehet. A második pedig a normálformák
+alkalmazása.
