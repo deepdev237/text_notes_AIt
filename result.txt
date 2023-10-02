@@ -1,0 +1,41 @@
+Az adatbázisok rendszerezett adatok tárolására szolgálnak, lehetővé téve az adatok tárolását, rendszerezését, visszakeresését, módosítását és lekérdezéseit. Az adatbázisok funkcióit biztosító rendszert adatbázis-kezelőnek, az ezzel foglalkozó diszciplínát pedig adatbázis-kezelésnek nevezzük.
+
+Az adatbázis-kezelés mögötti elméleti háttérben kulcsfontosságú fogalom az adatmodell, az adatbázisban tárolt adatok adatszervezési módjának sémája. Különböző adatmodell létezik:
+
+- Hierarchikus adatbázis modell, ahol az adatokat fa szerkezet jellemzi.
+- Hálós adatbázis modell, amelyben az adatokat gráfokkal írjuk le.
+- Többdimenziós adatmodell, amely statisztikai elemzés és adatbányászat esetén hasznos.
+- Objektumrelációs adatmodell, amely a relációs modell összetett adattípusokkal való bővítése.
+- Relációs adatmodell, az adatbázis-kezelés leggyakrabban használt modellje. 
+
+Ezen modell fő fogalma a reláció, amit gyakorlatilag táblaként értelmezünk, és amely sorokból és oszlopokból áll.
+
+A táblákat demonstrálhatjuk kulcsok segítségével, amelyek különleges tulajdonságokkal rendelkező oszlopok. Az elsődleges kulcsot, minden adatában egyedinek kell lennie, míg az idegen kulcs elemei az első tábla elsődleges kulcsának elemei közül kerülnek ki és ezzel testesíti meg a két tábla közötti kapcsolatot. 
+
+A táblák közötti kapcsolatokat a következők szerint csoportosíthatjuk: egy-az-egyhez kapcsolat, egy-a-többhöz kapcsolat és több-a-többhöz kapcsolat.
+
+Az adatbázisokat csoportosíthatjuk operatív és analitikus adatbázisokra. Az operatív adatbázisokban az összegyűjtött adatok tárolását kezelik, míg az analitikus adatbázisok statikus adatokat tárolnak.
+
+Az adatbázisok tervezésénél fontos a megfelelő tervezés, mivel nagyobb adatbázisoknál a későbbi, radikális átalakítás számos problémát vet fel.Az adatbázisok absztrakciós szintjei közül fizikai szintet, fogalmi-logikai szint, és felhasználói szintet különböztetünk meg. A fizikai szint az adatok fizikai elhelyezkedését jelenti, a fogalmi-logikai szint az adatmodellre épülve leírja az adatbázis egészét, a felhasználói szint pedig a felhasználó igényeinek megfelelő, konkrét nézetet és kezelőfelületet biztosít.
+
+Az adatbázis tervezésekor először definiálni kell az adatbázissémát, mely tartalmazza az egyedeket, tulajdonságokat, elsődleges és idegen kulcsokat, valamint a kapcsolatokat. Az adatbázis-előfordulás az adatbázis aktuális tartalmát jelenti.
+
+Különböző kapcsolatok alakulhatnak ki a táblák között, melyek között egy-az-egyhez, egy-a-többhöz és több-a-többhöz kapcsolatot különböztetünk meg. Az ilyen kapcsolatok eredményeként felléphetnek anomáliák, melyek problémákat okozhatnak az adatbázis működésében. Ezek a problémák redundanciaként, beszúrási, módosítási vagy törlési problémák formájában jelentkezhetnek.
+
+A funkcionális kapcsolat valamilyen adatból más adat értékének következését jelenti. A funkcionális függőség a függőség baloldalát meghatározó adatból a jobboldalon szereplő adat következik. A funkcionális függőség nem lehet többértékű, tehát a jobboldalon csak egyetlen érték állhat.
+
+A redundancia a redundáns adatok többszörös tárolását foglalja magába. A redundancia elkerülésére a normálformák használata ajánlott.
+
+Példa az előbbi modellegzémákra adatbázisban:
+
+- Egy-az-egyhez kapcsolat: HALLGATÓK (Hallgatókód*, Vezetéknév, Karkód, Szakkód …), KOSÁRLABDÁZÓK (Hallgatókód*, Magasság, Pozíció …)
+- Egy-a-többhöz kapcsolat: KATONÁK (Katonakód, Vezetéknév, Keresztnév, Egység, Rang …), FELESÉGEK (Feleségkód, Vezetéknév, Keresztnév, Katonakód* …)
+- Több-a-többhöz kapcsolat: OKTATÓK (Oktatókód, Vezetéknév, Keresztnév, Karkód …), HALLGATÓK (Hallgatókód, Vezetéknév, Keresztnév, Karkód, Szakkód … ), TANTÁRGYI KAPCSOLAT (Oktatókód*, Hallgatókód* … )1. Normálformák: Ezek követése minimálisra csökkenti a redundancia problémáját az adatbázisrendszerekben. Öt fő normálforma ismert, de az első három használata általában elegendő.
+
+2. Első normálforma (1NF): Egy tábla akkor van ebben a formában, ha minden tulajdonság egyszerű, nem összetett adatokat tartalmaz. Formálisabb definíció szerint az ismétlődő csoportok hiányának kell jellemezni. Példa: VÁSÁRLÓK tábla, ahol a telefonszámok egyszerű adatokatként jelennek meg.
+
+3. Második normálforma (2NF): Egy tábla ebben a formában van, ha az 1NF-nek megfelel, és minden nem elsődleges kulcsként funkcionáló tulajdonsága teljes funkcionális függőségben van az elsődleges kulcs egészétől. Példa: VIZSGABEOSZTÁS tábla, ahol az adatok egyszerűen kapcsolatban vannak a tanterem és az időpont kulccsal.
+
+4. Harmadik normálforma (3NF): Egy tábla ebben a formában van, ha a 2NF-nek megfelel, és a nem elsődleges kulcsként funkcionáló tulajdonságok között nincs funkcionális függés. Példa: VIZSGABIZOTTSÁGOK tábla, ahol minden adat csak az elsődleges kulcstól függ.
+
+Összefoglalva, a normálformák használata alapvető az adatbázisrendszer tervezésénél, mivel segítenek a redundáns adatok kiküszöbölésében és az adatok egyszerűbb, hatékonyabb kezelésében.
